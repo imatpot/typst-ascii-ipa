@@ -1,9 +1,11 @@
 # Typst IPA
 
-A direct port from [the Rust ipa-translate crate](https://github.com/tirimid/ipa-translate) by [tirimid](https://github.com/tirimid)'s conversion features into native [Typst](https://typst.app). Props to them for doing all the *actual* work!
+A direct port of the [`ipa-translate`](https://github.com/tirimid/ipa-translate) Rust crate by [tirimid](https://github.com/tirimid)'s conversion features into native [Typst](https://typst.app). Props to them for doing all the *actual* work!
 
-This essentially allows you to enter linguistic notation, such as the International Phonetic Alphabet (IPA) and the different brackets and braces that accompany it, using several ASCII-encoded substitutions.
+This essentially allows you to conveniently convert linguistic notation from ASCII-representations into IPA, and provides the different brackets and braces that accompany it. This library supports forward and backward conversion with X-Sampa, Praat, Branner, and SIL.
 
 ## Usage
 
-Check out the [`README.typ`](README.typ#L15) and its compilation [`README.pdf`](README.pdf) for all the details you need. Feel free to compile it and play around a little bit.
+Check out the [`example.pdf`](example.pdf) and its source [`example.typ`](example.typ) for all the details you need. Feel free to compile and play around with it yourself.
+
+Once Typst eventually receives its own package manager, I'll provide this repository as a package for convenient use across your projects!

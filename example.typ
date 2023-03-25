@@ -22,7 +22,7 @@ While the features are somewhat organized into separate files, you can import ev
 
 == Conversion
 
-/ Sample word: Russian #orth("Привет") #phnt(xsampa("pr_jIv_jet"))
+/ Sample word: Russian #orth("привет") #phnt(xsampa("pr_jIv_jet"))
 
 To convert X-SAMPA, Praat, Branner, and SIL notation to the IPA, use the following functions:
 
@@ -63,7 +63,7 @@ You can mark your text as #phonetic("phonetic"), #phonemic("phonemic"), #orthogr
 ```typ
 #phonetic("prʲɪˈvʲet") /* or */ #phnt("prʲɪˈvʲet")
 #phonemic("prɪvet") /* or */ #phnm("prɪvet")
-#orthographic("Привет") /* or */ #orth("Привет")
+#orthographic("привет") /* or */ #orth("привет")
 #prosodic("I actually don't know what this is") /* or */ #prsd("...")
 ```
 
@@ -71,7 +71,7 @@ Output:
 
 - #phonetic("prʲɪˈvʲet")
 - #phonemic("prɪvet")
-- #orthographic("Привет")
+- #orthographic("привет")
 - #prosodic("I actually don't know what this is")
 
 #include("test.typ")
