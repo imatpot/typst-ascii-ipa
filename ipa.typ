@@ -4,8 +4,7 @@
 #import("translations/sil.typ"): sil-translations
 
 #let replacer = (val, rpl, reverse: false) => {
-  let a = if reverse { 1 } else { 0 }
-  let b = if reverse { 0 } else { 1 }
+  let (a, b) = if reverse {( 1, 0 )} else {( 0, 1 )}
 
   for pair in rpl {
     val = val.replace(pair.at(a), pair.at(b))
