@@ -56,6 +56,12 @@ Output:
 - #branner("prʲɪvʲet", reverse: true)
 - #sil("prʲɪvʲet", reverse: true)
 
+If you are using a font which is not fully IPA-compatible, you can force the usage of Linux Libertine:
+
+```typ
+#xsampa("prʲɪvʲet", override-font: true)
+```
+
 == Brackets and braces
 
 You can mark your text as #phonetic("phonetic"), #phonemic("phonemic"), #orthographic("orthographic"), and #prosodic("prosodic"):

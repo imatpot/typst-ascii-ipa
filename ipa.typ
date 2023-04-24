@@ -13,20 +13,42 @@
   val
 }
 
-#let xsampa = (val, reverse: false) => {
-  replacer(val, xsampa-translations, reverse: reverse)
+#let font-overrider = (content, override: false) => {
+  if (override) {
+    set text(font: "Linux Libertine")
+    content
+  }
+  else {
+    content
+  }
 }
 
-#let praat = (val, reverse: false) => {
-  replacer(val, praat-translations, reverse: reverse)
+#let xsampa = (val, reverse: false, override-font: false) => {
+  font-overrider(
+    replacer(val, xsampa-translations, reverse: reverse),
+    override: override-font,
+  )
 }
 
-#let branner = (val, reverse: false) => {
-  replacer(val, branner-translations, reverse: reverse)
+#let praat = (val, reverse: false, override-font: false) => {
+  font-overrider(
+    replacer(val, praat-translations, reverse: reverse),
+    override: override-font,
+  )
 }
 
-#let sil = (val, reverse: false) => {
-  replacer(val, sil-translations, reverse: reverse)
+#let branner = (val, reverse: false, override-font: false) => {
+  font-overrider(
+    replacer(val, branner-translations, reverse: reverse),
+    override: override-font,
+  )
+}
+
+#let sil = (val, reverse: false, override-font: false) => {
+  font-overrider(
+    replacer(val, sil-translations, reverse: reverse),
+    override: override-font,
+  )
 }
 
 #let phonetic = (val) => {[
