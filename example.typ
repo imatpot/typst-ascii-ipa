@@ -59,7 +59,7 @@ Output:
 If you are using a font which is not fully IPA-compatible, you can force the usage of Linux Libertine:
 
 ```typ
-#xsampa("prʲɪvʲet", override-font: true)
+#xsampa("pr_jIv_jet", override-font: true)
 ```
 
 == Brackets and braces

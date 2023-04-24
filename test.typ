@@ -17,7 +17,6 @@
     === #t.at(0) $<-$ #t.at(1)
     #unit-test(translator(t.at(1), reverse: true) == t.at(0))
     $->$ #translator(t.at(0), reverse: true)
-
   ]}
 }
 
