@@ -9,16 +9,6 @@
   ("#!", "ꜞ"),
   ("##!", "ꜟ"),
   ("#&", "͡"),
-  ("#0", "˩"),
-  ("#04", "˩˥"),
-  ("#1", "˨"),
-  ("#12", "˨˧"),
-  ("#141", "˨˥˨"),
-  ("#2", "˧"),
-  ("#24", "˧˥"),
-  ("#3", "˦"),
-  ("#4", "˥"),
-  ("#40", "˥˩"),
   ("#<", "ꜜ"),
   ("#<<", "↘"),
   ("#=", "͜"),
@@ -192,6 +182,23 @@
   ("~~", "̴"),
 )
 
+#let tones = (
+  "&": (
+    ("0", "꜖"),
+    ("1", "꜕"),
+    ("2", "꜔"),
+    ("3", "꜓"),
+    ("4", "꜒"),
+  ),
+  "#": (
+    ("0", "˩"),
+    ("1", "˨"),
+    ("2", "˧"),
+    ("3", "˦"),
+    ("4", "˥"),
+  ),
+)
+
 #let superscripts = (
   ("-", "⁻"),
   ("0", "⁰"),
@@ -327,6 +334,65 @@
 
 // TODO footnotes of https://help.keyman.com/keyboard/sil_ipa/1.8.6/sil_ipa
 
+#let parse-tones(text, reverse: false) = {
+  let (from, to) = if reverse { (1, 0) } else { (0, 1) }
+
+  let left-tones = tones.at("&")
+  let right-tones = tones.at("#")
+
+  let left-tone-regex = if reverse {
+    regex("((" + left-tones.map(tone => tone.at(1)).join("|") + "){1, 3})")
+  } else {
+    regex("&([0-4]{1,3})")
+  }
+
+  let right-tone-regex = if reverse {
+    regex("((" + right-tones.map(tone => tone.at(1)).join("|") + "){1, 3})")
+  } else {
+    regex("#([0-4]{1,3})")
+  }
+
+  let left-matches = text
+    .matches(left-tone-regex)
+    .dedup(key: (match) => match.text)
+    .sorted(key: (match) => -match.captures.at(0).len()) // Avoid partial matches
+
+  let right-matches = text
+    .matches(right-tone-regex)
+    .dedup(key: (match) => match.text)
+    .sorted(key: (match) => -match.captures.at(0).len()) // Avoid partial matches
+
+  for match in left-matches {
+    let replacement = match.captures.at(0)
+
+    for tone in left-tones {
+      replacement = replacement.replace(tone.at(from), tone.at(to))
+    }
+
+    if reverse {
+      replacement = "&" + replacement
+    }
+
+    text = text.replace(match.text, replacement)
+  }
+
+  for match in right-matches {
+    let replacement = match.captures.at(0)
+
+    for tone in right-tones {
+      replacement = replacement.replace(tone.at(from), tone.at(to))
+    }
+
+    if reverse {
+      replacement = "#" + replacement
+    }
+
+    text = text.replace(match.text, replacement)
+  }
+
+  return text
+}
+
 #let sil(text, reverse: false) = {
   let (from, to) = if reverse { (1, 0) } else { (0, 1) }
 
@@ -334,6 +400,8 @@
     for (normal, super) in superscripts {
       text = text.replace(super, normal + "^")
     }
+
+    text = parse-tones(text, reverse: true)
   }
 
   for pair in sil-unicode {
@@ -341,6 +409,8 @@
   }
 
   if not reverse {
+    text = parse-tones(text)
+
     for (normal, super) in superscripts {
       text = text.replace(normal + "^", super)
     }

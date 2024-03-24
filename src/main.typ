@@ -4,4 +4,6 @@
 #import "lib/sil.typ": sil
 #import "lib/xsampa.typ": xsampa
 
-#sil("e$$$$")
+#sil("lorem^ ips^um #02 &4")
+
+#sil("loreᵐ ipˢum ˩˧ ꜒", reverse: true)
