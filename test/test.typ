@@ -1,14 +1,18 @@
-#import "../ascii-ipa.typ": *
+#import "../src/main.typ": *
 
 #let run-tests = (tests, translator, name) => {
-  for test in tests {
+  for (from, to) in tests {
+    let forward = translator(from)
+    let reverse = translator(to, reverse: true)
+
     assert(
-      translator(test.at(0)) == test.at(1),
-      message: name + ": " + test.at(0) + " -> " + test.at(1)
+      forward == to,
+      message: name + ": " + from + "\nExpected " + to + "\nbut got  " + forward
     )
+
     assert(
-      translator(test.at(1), reverse: true) == test.at(0),
-      message: name + " " + test.at(1) + " -> " + test.at(0)
+      reverse == from,
+      message: name + " (reverse): " + to + "\nExpected " + from + "\nbut got  " + reverse
     )
   }
 }
@@ -33,6 +37,8 @@
   ("r", "r"),
   ("l5jw", "lɫjw"),
   ("E@`pO@`t", "ɛɚpɔɚt"),
+  ("at_Sa", "at͡ʃa"),
+  ("at`_s`a", "aʈ͡ʂa"),
 )
 
 #let praat-tests = (
@@ -57,6 +63,8 @@
   ("mn", "mn"),
   ("r", "r"),
   ("l\\l~jw", "lɫjw"),
+  ("at\\li\\sha", "at͡ʃa"),
+  ("a\\t.\\li\\s.a", "aʈ͡ʂa"),
 )
 
 #let branner-tests = (
@@ -76,6 +84,8 @@
   ("mn", "mn"),
   ("r", "r"),
   ("ll~)jw", "lɫjw"),
+  ("atS))a", "at͡ʃa"),
+  ("atr)sr)))a", "aʈ͡ʂa"),
 )
 
 #let sil-tests = (

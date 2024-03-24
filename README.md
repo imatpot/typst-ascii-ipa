@@ -1,5 +1,8 @@
 # `ascii-ipa`
 
+> [!TIP]
+> X-SAMPA, Branner, SIL, Praat, Kirshenbaum, PHONASCII
+
 🔄 ASCII / IPA conversion for Typst
 
 This package allows you to easily convert different ASCII representations of the International Phonetic Alphabet (IPA) to and from the IPA.
@@ -33,7 +36,7 @@ They all return the converted value as either [`string`][typst-str] or [`content
 All examples use the Russian word ⟨привет⟩ [prʲɪvʲet] for the conversion.
 
 ```typst
-#import "@preview/ascii-ipa:1.1.1": *
+#import "@preview/ascii-ipa:2.0.0": *
 
 // Branner
 #branner("prj^Ivj^et") // prʲɪvʲet
@@ -69,7 +72,7 @@ Not everything could be implemented fully compliant with the information in the 
 You can easily mark your notation text as phonetic, phonemic, orthographic, or prosodic.
 
 ```typst
-#import "@preview/ascii-ipa:1.1.1": *
+#import "@preview/ascii-ipa:2.0.0": *
 
 #phonetic("prʲɪˈvʲet") // [prʲɪˈvʲet]
 #phnt("prʲɪˈvʲet") // [prʲɪˈvʲet]
