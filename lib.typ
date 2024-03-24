@@ -1,7 +1,7 @@
-#import("translations/xsampa.typ"): xsampa-translations
-#import("translations/praat.typ"): praat-translations
-#import("translations/branner.typ"): branner-translations
-#import("translations/sil.typ"): sil-translations
+#import("util/xsampa.typ"): *
+#import("util/praat.typ"): *
+#import("util/branner.typ"): *
+#import("util/sil.typ"): *
 
 #let replacer = (val, rpl, reverse: false) => {
   let (a, b) = if reverse {( 1, 0 )} else {( 0, 1 )}

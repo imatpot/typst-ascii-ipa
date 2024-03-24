@@ -1,23 +1,16 @@
-#import("ipa.typ"): *
+#import("lib.typ"): *
 
-#let unit-test = (passed) => {
-  set text(
-    fill: if passed { green } else { red }
-  )
-
-  if passed {[ passed ]} else {[ failed ]}
-}
-
-#let run-tests = (tests, translator) => {
-  for t in tests {[
-    === #t.at(0) $->$ #t.at(1)
-    #unit-test(translator(t.at(0)) == t.at(1))
-    $->$ #translator(t.at(0))
-
-    === #t.at(0) $<-$ #t.at(1)
-    #unit-test(translator(t.at(1), reverse: true) == t.at(0))
-    $->$ #translator(t.at(0), reverse: true)
-  ]}
+#let run-tests = (tests, translator, name) => {
+  for test in tests {
+    assert(
+      translator(test.at(0)) == test.at(1),
+      message: name + ": " + test.at(0) + " -> " + test.at(1)
+    )
+    assert(
+      translator(test.at(1), reverse: true) == test.at(0),
+      message: name + " " + test.at(1) + " -> " + test.at(0)
+    )
+  }
 }
 
 #let xsampa-tests = (
@@ -105,24 +98,7 @@
   ("ll~~jw", "lɫjw"),
 )
 
-#pagebreak()
-
-== Unit Tests
-
-=== X-SAMPA
-#run-tests(xsampa-tests, xsampa)
-
-#pagebreak()
-
-=== Praat
-#run-tests(praat-tests, praat)
-
-#pagebreak()
-
-=== Branner
-#run-tests(branner-tests, branner)
-
-#pagebreak()
-
-=== SIL
-#run-tests(sil-tests, sil)
+#run-tests(branner-tests, branner, "Branner")
+#run-tests(praat-tests, praat, "Praat")
+#run-tests(sil-tests, sil, "SIL")
+#run-tests(xsampa-tests, xsampa, "X-SAMPA")
