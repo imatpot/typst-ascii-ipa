@@ -1,6 +1,10 @@
 # Changelog of `ascii-ipa`
 
-follows [semantic versionin][semver]
+follows [semantic versioning][semver]
+
+## 1.1.1
+
+- Fixed a bug in X-SAMPA where ``` ` ``` falsely took precedence over ``` @` ``` (https://github.com/imatpot/typst-packages/issues/1)
 
 ## 1.1.0
 

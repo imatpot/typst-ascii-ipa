@@ -32,6 +32,7 @@
   ("mn", "mn"),
   ("r", "r"),
   ("l5jw", "lɫjw"),
+  ("E@`pO@`t", "ɛɚpɔɚt"),
 )
 
 #let praat-tests = (
