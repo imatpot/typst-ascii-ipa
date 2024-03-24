@@ -1,3 +1,5 @@
+// adaptation of https://github.com/tirimid/ipa-translate/blob/master/translations/xsampa.rs
+
 #let xsampa-translations = (
   // diacritics part 1.
   ("_A", "̘"),

@@ -1,3 +1,5 @@
+// adaptation of https://github.com/tirimid/ipa-translate/blob/master/translations/sil.rs
+
 #let sil-translations = (  // suprasegmentals and diacritics.
   ("}}}}", "᷂"),
   ("}}}", "͈"),

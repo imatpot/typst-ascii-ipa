@@ -1,3 +1,5 @@
+// adaptation of https://github.com/tirimid/ipa-translate/blob/master/translations/praat.rs
+
 #let praat-translations = (
   // understrike diacritics.
   ("\\|v", "̩"),

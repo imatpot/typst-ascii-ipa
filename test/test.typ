@@ -1,4 +1,4 @@
-#import("lib.typ"): *
+#import "../ascii-ipa.typ": *
 
 #let run-tests = (tests, translator, name) => {
   for test in tests {

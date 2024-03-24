@@ -1,3 +1,5 @@
+// adaptation of https://github.com/tirimid/ipa-translate/blob/master/translations/branner.rs
+
 #let branner-translations = (
   // vowels part 1.
   ("i-", "ɨ"),
