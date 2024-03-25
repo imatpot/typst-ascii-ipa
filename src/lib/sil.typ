@@ -1,4 +1,4 @@
-// https://help.keyman.com/keyboard/sil_ipa/1.8.6/sil_ipa
+// https://help.keyman.com/keyboard/sil_ipa/1.8.7/sil_ipa
 // https://en.wikipedia.org/wiki/Comparison_of_ASCII_encodings_of_the_International_Phonetic_Alphabet
 
 #let sil-unicode = (
@@ -125,7 +125,6 @@
   ("l<", "ɭ"),
   ("l=", "ɬ"),
   ("l>", "ɮ"),
-  ("l~~", "ɫ"),
   ("m", "m"),
   ("m>", "ɱ"),
   ("n", "n"),
@@ -180,9 +179,11 @@
   ("}}}}", "᷂"),
   ("~", "̃"),
   ("~~", "̴"),
+).sorted(
+  key: (pair) => -pair.at(0).len()
 )
 
-#let tones = (
+#let sil-tones = (
   "&": (
     ("0", "꜖"),
     ("1", "꜕"),
@@ -199,7 +200,7 @@
   ),
 )
 
-#let superscripts = (
+#let sil-superscript = (
   ("-", "⁻"),
   ("0", "⁰"),
   ("1", "¹"),
@@ -332,88 +333,214 @@
   ("𝼊", "𐞹"),
 )
 
-// TODO footnotes of https://help.keyman.com/keyboard/sil_ipa/1.8.6/sil_ipa
+#let sil-subscript = (
+  ("0", "₀"),
+  ("1", "₁"),
+  ("2", "₂"),
+  ("3", "₃"),
+  ("4", "₄"),
+  ("5", "₅"),
+  ("6", "₆"),
+  ("7", "₇"),
+  ("8", "₈"),
+  ("9", "₉"),
+)
+
+#let sil-retroflex = (
+  ("a", "ᶏ"),
+  ("ɑ", "ᶐ"),
+  ("ɗ", "ᶑ"),
+  ("e", "ᶒ"),
+  ("ɛ", "ᶓ"),
+  ("ɜ", "ᶔ"),
+  ("ə", "ᶕ"),
+  ("i", "ᶖ"),
+  ("ɔ", "ᶗ"),
+  ("ʃ", "ᶘ"),
+  ("u", "ᶙ"),
+  ("ʒ", "ᶚ"),
+)
+
+#let sil-palatal = (
+  ("b", "ᶀ"),
+  ("d", "ᶁ"),
+  ("f", "ᶂ"),
+  ("ɡ", "ᶃ"),
+  ("k", "ᶄ"),
+  ("l", "ᶅ"),
+  ("m", "ᶆ"),
+  ("n", "ᶇ"),
+  ("p", "ᶈ"),
+  ("r", "ᶉ"),
+  ("s", "ᶊ"),
+  ("ʃ", "ᶋ"),
+  ("v", "ᶌ"),
+  ("x", "ᶍ"),
+  ("z", "ᶎ"),
+)
+
+#let sil-velar-pharyngeal = (
+  ("b", "ᵬ"),
+  ("d", "ᵭ"),
+  ("f", "ᵮ"),
+  ("l", "ɫ"),
+  ("m", "ᵯ"),
+  ("n", "ᵰ"),
+  ("p", "ᵱ"),
+  ("r", "ᵲ"),
+  ("ɾ", "ᵳ"),
+  ("s", "ᵴ"),
+  ("z", "ᵵ"),
+  ("z", "ᵶ"),
+)
+
+#let parse-retroflex(text, reverse: false) = {
+  if reverse {
+    for (normal, retroflex) in sil-retroflex {
+      text = text.replace(retroflex, normal + "̢")
+    }
+  } else {
+    for (normal, retroflex) in sil-retroflex {
+      text = text.replace(normal + "̢", retroflex)
+    }
+  }
+
+  return text
+}
+
+#let parse-palatal(text, reverse: false) = {
+  if reverse {
+    for (normal, palatal) in sil-palatal {
+      text = text.replace(palatal, normal + "̡")
+    }
+  } else {
+    for (normal, palatal) in sil-palatal {
+      text = text.replace(normal + "̡", palatal)
+    }
+  }
+
+  return text
+}
+
+#let parse-velar-pharyngeal(text, reverse: false) = {
+  if reverse {
+    for (normal, velar-pharyngeal) in sil-velar-pharyngeal {
+      text = text.replace(velar-pharyngeal, normal + "̴")
+    }
+  } else {
+    for (normal, velar-pharyngeal) in sil-velar-pharyngeal {
+      text = text.replace(normal + "̴", velar-pharyngeal)
+    }
+  }
+
+  return text
+}
 
 #let parse-tones(text, reverse: false) = {
+  let left-tones = sil-tones.at("&")
+  let right-tones = sil-tones.at("#")
+
   let (from, to) = if reverse { (1, 0) } else { (0, 1) }
 
-  let left-tones = tones.at("&")
-  let right-tones = tones.at("#")
+  let get-tone-regex(tones, prefix) = {
+    return if reverse {
+      regex("((" + tones.map(tone => tone.at(1)).join("|") + "){1, 3})")
+    } else {
+      regex(prefix + "([0-4]{1, 3})")
+    }
+  }
 
-  let left-tone-regex = if reverse {
-    regex("((" + left-tones.map(tone => tone.at(1)).join("|") + "){1, 3})")
+  let left-tone-regex = get-tone-regex(left-tones, "&")
+  let right-tone-regex = get-tone-regex(right-tones, "#")
+
+  let match-tones(text, regex) = {
+    return text
+      .matches(regex)
+      .dedup(key: (match) => match.text)
+      .sorted(key: (match) => -match.captures.at(0).len()) // Avoid partial matches
+  }
+
+  let left-matches = match-tones(text, left-tone-regex)
+  let right-matches = match-tones(text, right-tone-regex)
+
+  let replace-matches(text, matches, tones, prefix) = {
+    for match in matches {
+      let replacement = match.captures.at(0)
+
+      for tone in tones {
+        replacement = replacement.replace(tone.at(from), tone.at(to))
+      }
+
+      if reverse {
+        replacement = prefix + replacement
+      }
+
+      text = text.replace(match.text, replacement)
+    }
+
+    return text
+  }
+
+  text = replace-matches(text, left-matches, left-tones, "&")
+  text = replace-matches(text, right-matches, right-tones, "#")
+
+  return text
+}
+
+#let parse-subscript(text, reverse: false) = {
+  if reverse {
+    for (normal, sub) in sil-subscript {
+      text = text.replace(sub, normal + "̠")
+    }
   } else {
-    regex("&([0-4]{1,3})")
+    for (normal, sub) in sil-subscript {
+      text = text.replace(normal + "̠", sub)
+    }
   }
 
-  let right-tone-regex = if reverse {
-    regex("((" + right-tones.map(tone => tone.at(1)).join("|") + "){1, 3})")
+  return text
+}
+
+#let parse-superscript(text, reverse: false) = {
+  if reverse {
+    for (normal, super) in sil-superscript {
+      text = text.replace(super, normal + "^")
+    }
   } else {
-    regex("#([0-4]{1,3})")
-  }
-
-  let left-matches = text
-    .matches(left-tone-regex)
-    .dedup(key: (match) => match.text)
-    .sorted(key: (match) => -match.captures.at(0).len()) // Avoid partial matches
-
-  let right-matches = text
-    .matches(right-tone-regex)
-    .dedup(key: (match) => match.text)
-    .sorted(key: (match) => -match.captures.at(0).len()) // Avoid partial matches
-
-  for match in left-matches {
-    let replacement = match.captures.at(0)
-
-    for tone in left-tones {
-      replacement = replacement.replace(tone.at(from), tone.at(to))
+    for (normal, super) in sil-superscript {
+      text = text.replace(normal + "^", super)
     }
-
-    if reverse {
-      replacement = "&" + replacement
-    }
-
-    text = text.replace(match.text, replacement)
-  }
-
-  for match in right-matches {
-    let replacement = match.captures.at(0)
-
-    for tone in right-tones {
-      replacement = replacement.replace(tone.at(from), tone.at(to))
-    }
-
-    if reverse {
-      replacement = "#" + replacement
-    }
-
-    text = text.replace(match.text, replacement)
   }
 
   return text
 }
 
 #let sil(text, reverse: false) = {
-  let (from, to) = if reverse { (1, 0) } else { (0, 1) }
+  let run-parsers(text) = {
+    text = parse-retroflex(text, reverse: reverse)
+    text = parse-palatal(text, reverse: reverse)
+    text = parse-velar-pharyngeal(text, reverse: reverse)
+    text = parse-subscript(text, reverse: reverse)
+    text = parse-tones(text, reverse: reverse)
+
+    // requires all previous parsers to run first
+    text = parse-superscript(text, reverse: reverse)
+
+    return text
+  }
 
   if reverse {
-    for (normal, super) in superscripts {
-      text = text.replace(super, normal + "^")
-    }
-
-    text = parse-tones(text, reverse: true)
+    text = run-parsers(text)
   }
+
+  let (from, to) = if reverse { (1, 0) } else { (0, 1) }
 
   for pair in sil-unicode {
     text = text.replace(pair.at(from), pair.at(to))
   }
 
   if not reverse {
-    text = parse-tones(text)
-
-    for (normal, super) in superscripts {
-      text = text.replace(normal + "^", super)
-    }
+    text = run-parsers(text)
   }
 
   return text

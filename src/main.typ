@@ -4,6 +4,8 @@
 #import "lib/sil.typ": sil
 #import "lib/xsampa.typ": xsampa
 
-#sil("lorem^ ips^um #02 &4")
+#let test = "d>$$$$l~~a<^ 0_ &33 #32 2_ x=x=^ f~~ k#&p k@&p"
 
-#sil("loreᵐ ipˢum ˩˧ ꜒", reverse: true)
+- #test
+- #sil(test)
+- #sil(sil(test), reverse: true)
