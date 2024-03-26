@@ -9,23 +9,23 @@ follows [semantic versioning](https://semver.org)
 
 - General
   - (BREAKING) Dropped support for `override-font` to avoid [`string`](https://typst.app/docs/reference/foundations/str/)/[`content`](https://typst.app/docs/reference/foundations/content/) ambiguity
-  - Extended bracket & braces support to include [precise, morphophonemic, indistinguishable, obscured, and transliterated](https://en.wikipedia.org/wiki/International_Phonetic_Alphabet#Brackets_and_transcription_delimiters) notation
+  - Added bracket & braces support for [precise, morphophonemic, indistinguishable, obscured, and transliterated](https://en.wikipedia.org/wiki/International_Phonetic_Alphabet#Brackets_and_transcription_delimiters) notations
 - Branner
   - (BREAKING) `))` between characters (e.g. `t))s`) is no longer supported and must now be used according to specification (e.g. `ts))`)
-  - Extended range of supported characters and diacritics
+  - Added support for more characters and diacritics
 - Praat
-  - Extended range of supported characters and diacritics
+  - Added support for more characters and diacritics
   - Add support for `$` as a replacement to `\\` avoiding the need for escaping
 - SIL
-  - Extended range of supported characters and diacritics
-  - Add proper Unicode support for hooks (palatal, retroflex)
-  - Add proper Unicode support for middle tildes (velar, pharyngeal)
-  - Add proper Unicode support for superscripts
+  - Added support for more characters and diacritics
+  - Added proper Unicode support for hooks (palatal, retroflex)
+  - Added proper Unicode support for middle tildes (velar, pharyngeal)
+  - Added proper Unicode support for superscripts
   - Added support for subscripts
   - Added support for right-bar tone glides
   - Added support for left-bar tones
 - X-SAMPA
-  - Extended range of supported characters and diacritics
+  - Added support for more characters and diacritics
   - Added support for `-` as a separator
 
 ## 1.1.1
