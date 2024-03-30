@@ -192,7 +192,7 @@
 
 #let remove-separators(text) = text.replace("-", "")
 
-#let xsampa(text, reverse: false) = {
+#let convert-xsampa(text, reverse: false) = {
   let (from, to) = if reverse { (1, 0) } else { (0, 1) }
 
   for pair in xsampa-unicode {

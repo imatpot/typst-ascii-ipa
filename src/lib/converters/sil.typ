@@ -515,7 +515,7 @@
   return text
 }
 
-#let sil(text, reverse: false) = {
+#let convert-sil(text, reverse: false) = {
   let run-parsers(text) = {
     text = parse-retroflex(text, reverse: reverse)
     text = parse-palatal(text, reverse: reverse)

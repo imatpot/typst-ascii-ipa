@@ -174,16 +174,8 @@
   key: (match) => -match.at(0).len()
 )
 
-#let replace-dollars(text) = {
-  return text.replace("$", "\\")
-}
-
-#let praat(text, reverse: false) = {
+#let convert-praat(text, reverse: false) = {
   let (from, to) = if reverse { (1, 0) } else { (0, 1) }
-
-  if not reverse {
-    text = replace-dollars(text)
-  }
 
   for pair in praat-unicode {
     text = text.replace(pair.at(from), pair.at(to))

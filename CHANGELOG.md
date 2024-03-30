@@ -8,24 +8,24 @@ follows [semantic versioning](https://semver.org)
 > This release contains breaking changes
 
 - General
-  - (BREAKING) Dropped support for `override-font` to avoid [`string`](https://typst.app/docs/reference/foundations/str/)/[`content`](https://typst.app/docs/reference/foundations/content/) ambiguity
+  - **BREAKING:** Dropped support for `override-font` to avoid [`str`](https://typst.app/docs/reference/foundations/str/)/[`content`](https://typst.app/docs/reference/foundations/content/) ambiguity
   - Added bracket & braces support for [precise, morphophonemic, indistinguishable, obscured, and transliterated](https://en.wikipedia.org/wiki/International_Phonetic_Alphabet#Brackets_and_transcription_delimiters) notations
+  - Added support for converting [`raw`](https://typst.app/docs/reference/text/raw/)
 - Branner
-  - (BREAKING) `))` between characters (e.g. `t))s`) is no longer supported and must now be used according to specification (e.g. `ts))`)
-  - Added support for more characters and diacritics
+  - **BREAKING:** Infixed `))` (e.g. `t))s`) is no longer supported and must now be used as a postfix (e.g. `ts))`) as per the official specification
+  - Added support for more IPA characters and diacritics according to official specification
 - Praat
-  - Added support for more characters and diacritics
-  - Add support for `$` as a replacement to `\\` avoiding the need for escaping
+  - Added support for more IPA characters and diacritics according to official specification
 - SIL
-  - Added support for more characters and diacritics
-  - Added proper Unicode support for hooks (palatal, retroflex)
-  - Added proper Unicode support for middle tildes (velar, pharyngeal)
-  - Added proper Unicode support for superscripts
+  - Added support for more IPA characters and diacritics according to official specification
   - Added support for subscripts
   - Added support for right-bar tone glides
   - Added support for left-bar tones
+  - Added Unicode support for hooks (palatal, retroflex)
+  - Added Unicode support for middle tildes (velar, pharyngeal)
+  - Added Unicode support for superscripts
 - X-SAMPA
-  - Added support for more characters and diacritics
+  - Added support for more IPA characters and diacritics according to official specification
   - Added support for `-` as a separator
 
 ## 1.1.1
@@ -34,7 +34,7 @@ follows [semantic versioning](https://semver.org)
 
 ## 1.1.0
 
-- Translations will now return a [`string`](https://typst.app/docs/reference/foundations/str/) if the font is not overridden
+- Translations will now return a [`str`](https://typst.app/docs/reference/foundations/str/) if the font is not overridden
 - The library now explicitly exposes functions via a "gateway" entrypoint
 - Update internal project structure
 - Update package metadata

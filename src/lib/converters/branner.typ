@@ -2,8 +2,6 @@
 // https://en.wikipedia.org/wiki/Comparison_of_ASCII_encodings_of_the_International_Phonetic_Alphabet
 
 #let branner-unicode = (
-  // "))" is handled in `parse-tiebar()` due to it being a postfix to two characters
-
   ("&g^", "ˤ"),
   ("'", "ˈ"),
   ("(", "̯"),
@@ -191,7 +189,7 @@
   return text
 }
 
-#let branner(text, reverse: false) = {
+#let convert-branner(text, reverse: false) = {
   let (from, to) = if reverse { (1, 0) } else { (0, 1) }
 
   if reverse {
