@@ -190,17 +190,11 @@
   key: (pair) => -pair.at(0).len()
 )
 
-#let remove-separators(text) = text.replace("-", "")
-
 #let convert-xsampa(text, reverse: false) = {
   let (from, to) = if reverse { (1, 0) } else { (0, 1) }
 
   for pair in xsampa-unicode {
     text = text.replace(pair.at(from), pair.at(to))
-  }
-
-  if not reverse {
-    text = remove-separators(text)
   }
 
   return text
