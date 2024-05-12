@@ -26,7 +26,6 @@ follows [semantic versioning](https://semver.org)
   - Added Unicode support for superscripts
 - X-SAMPA
   - Added support for more IPA characters and diacritics according to official specification
-  - Added support for `-` as a separator
 
 ## 1.1.1
 
