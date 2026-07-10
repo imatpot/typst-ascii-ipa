@@ -182,8 +182,20 @@
   ("||", "‖"),
   ("}", "ʉ"),
   ("~", "̃"),
-).sorted(
-  key: (pair) => -pair.at(0).len()
+)
+
+#let xsampa-napa = (
+  ("dK", "λ"),
+  ("tK", "ƛ"),
+  ("K", "ł"),
+  ("X", "x̌"),
+  ("ts", "c"),
+  ("ej", "e"),
+  ("ow", "o"),
+  ("j", "y"),
+  ("_>", "̓"),
+  ("~", "̨"),
+  ("_~", "̨"),
 )
 
 #let samprosa-unicode = (
@@ -219,10 +231,12 @@
   text
 }
 
-#let convert-xsampa(text, reverse: false) = {
+#let convert-xsampa(text, reverse: false, napa: false, mappings: (:)) = {
   let (from, to) = if reverse { (1, 0) } else { (0, 1) }
+  let xsampa-chars = xsampa-unicode + if napa { xsampa-napa } else { (:) } + mappings
+
   text = convert-samprosa(text, reverse: reverse)
-  for pair in xsampa-unicode {
+  for pair in xsampa-chars.sorted(key: (pair) => -pair.at(0).len()) {
     text = text.replace(pair.at(from), pair.at(to))
   }
   text
